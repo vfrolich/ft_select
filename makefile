@@ -4,7 +4,8 @@ FLAGS           =	-Wall -Wextra -Werror
 LIB_PATH		=	libft
 LIB				=   $(LIB_PATH)/libft.a
 LIB_LINK		=	-Llibft -ltermcap -lft
-SRC				=	main.c init.c line.c handy_tools.c display.c
+SRC				=	main.c init.c line.c handy_tools.c display.c capability.c \
+					entries.c cursor.c underline.c term.c
 HEADER			=	ft_select.h
 OBJS			=	$(SRC:.c=.o)
 

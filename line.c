@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:14:30 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/08/08 17:21:43 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/08/25 19:27:30 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,38 @@ char	*line_init(t_list *entries)
 
 	// if ((cols = tgetnum("co")) == - 1)
 	// 	return (NULL);
-	// if (!(line = ft_strnew(cols)))
-	// {
-	// 	ft_putendl_fd("ft_select: no memory\
-	// 	available for line buff, abort.", 2);
-	// 	exit(1);
-	// }
+	// line = strgen(cols);
 	line_size = get_line_size(entries);
-	if (!(line = ft_strnew(line_size)))
-	{
-		ft_putendl_fd("ft_select: no memory\
-		available for line buff, abort.", 2);
-		exit(1);
-	}
+	line = strgen(line_size);
 	ptr = line;
 	tmp = entries;
 	line = line_feed(line, tmp, line_size);
 	line = ptr;
 	return (line);
+}
+
+int	line_check(size_t line_length)
+{
+	int height;
+	int	width;
+	char **dest;
+
+	if ((width = tgetnum("co")) == -1 ||
+	 (height = tgetnum("li") == -1))
+	{
+		ft_putendl_fd("ft_select: termcap database unreachable", 2);
+		exit(1);
+	}
+	if (!(dest =(char **)malloc(sizeof(char *))))
+	{
+		ft_putendl_fd("ft_select: Too few memory available, abort.", 2);
+		exit(1);
+	}
+	if (height < 1)
+		return (-1);
+	if (line_length > (size_t)width)
+		return (1);
+	return (0);
 }
 
 size_t	get_line_size(t_list *entries)

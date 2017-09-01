@@ -6,11 +6,19 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:17:49 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/08/08 17:21:31 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/08/24 10:01:59 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
+
+
+char	*read_input(char *buffer)
+{	
+	ft_bzero(buffer, 4);
+	read(0, buffer, 4);
+	return (buffer);
+}
 
 char *strgen(size_t lenght)
 {
@@ -23,4 +31,19 @@ char *strgen(size_t lenght)
 		exit(1);
 	}
 	return (line);
+}
+
+int wordcut(char *str, size_t width)
+{
+	char 	*tmp;
+	size_t 	index;
+
+	tmp = str;
+	index = 0;
+	while (index < width)
+	{
+		index++;
+		tmp++;
+	}
+	return (*tmp ? 1 : 0);
 }

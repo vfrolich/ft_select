@@ -6,11 +6,33 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:21 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/08/08 17:21:38 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/08/24 01:44:43 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
+
+t_list	*entry_init_one(char *arg)
+{
+	t_entry	*entry;
+	t_list	*dest;
+
+	if (!(entry = (t_entry *)malloc(sizeof(t_entry))))
+	{
+		ft_putendl_fd("ft_select: malloc error", 2);
+		exit(1);
+	}
+	entry->value = strgen(ft_strlen(arg));
+	entry->value = ft_strcpy(entry->value, arg);
+	entry->cursor = 0;
+	entry->selected = 0;
+	if (!(dest = ft_lstnew(entry, sizeof(entry))))
+	{
+		ft_putendl_fd("ft_select: malloc error", 2);
+		exit(1);	
+	}
+	return (dest);
+}
 
 char	*get_env_value(char *field, char **environ)
 {
@@ -63,29 +85,15 @@ void	init_checks(char **environ)
 	}
 }
 
-t_list	*get_entries(char **argv)
+struct termios *get_term_struct()
 {
-	t_list	*head;
-	t_list	*new;
-	size_t	len;
-	
-	argv++;
-	len = ft_strlen(*argv);
-	head = ft_lstnew(*argv, len);
-	argv++;
-	while (*argv)
+	struct termios *term_info;
+
+	term_info = (struct termios *)malloc(sizeof(struct termios));
+	if (tcgetattr(0, term_info) == -1)
 	{
-		if (**argv)
-		{
-			len = ft_strlen(*argv);
-			new = ft_lstnew(*argv, len);
-			lst_add(new, &head);
-		}
-		argv++;
+		ft_putendl_fd("ft_select:Unable to get term_info, abort.", 2);
+		exit(1);
 	}
-	if (!head->next)
-		head->next = head;
-	else
-		new->next = head;
-	return (head);
+	return (term_info);
 }
