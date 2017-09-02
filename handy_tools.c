@@ -6,21 +6,20 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:17:49 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/08/24 10:01:59 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/02 14:42:05 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-
 char	*read_input(char *buffer)
-{	
+{
 	ft_bzero(buffer, 4);
 	read(0, buffer, 4);
 	return (buffer);
 }
 
-char *strgen(size_t lenght)
+char	*strgen(size_t lenght)
 {
 	char *line;
 
@@ -33,10 +32,10 @@ char *strgen(size_t lenght)
 	return (line);
 }
 
-int wordcut(char *str, size_t width)
+int		wordcut(char *str, size_t width)
 {
-	char 	*tmp;
-	size_t 	index;
+	char	*tmp;
+	size_t	index;
 
 	tmp = str;
 	index = 0;

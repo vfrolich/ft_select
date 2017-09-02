@@ -6,15 +6,15 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 10:20:02 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/08/24 01:54:28 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/02 14:43:53 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-size_t count_entries(t_list *entries)
+size_t		count_entries(t_list *entries)
 {
-	t_list *tmp;
+	t_list	*tmp;
 	size_t	count;
 
 	tmp = entries;
@@ -28,17 +28,17 @@ size_t count_entries(t_list *entries)
 	return (count);
 }
 
-void	flag_entry(t_list *entry, int on)
+void		flag_entry(t_list *entry, int on)
 {
 	if (on)
-		((t_entry *)ARG)->selected = 1;
+		((t_elem *)ARG)->selected = 1;
 }
 
-t_list	*get_entries(char **argv)
+t_list		*get_entries(char **argv)
 {
 	t_list	*head;
 	t_list	*new;
-	
+
 	argv++;
 	head = entry_init_one(*argv);
 	argv++;
@@ -60,15 +60,15 @@ t_list	*get_entries(char **argv)
 
 static void	free_entry(t_list *entry)
 {
-	ft_strdel(&((t_entry *)ARG)->value);
+	ft_strdel(&((t_elem *)ARG)->value);
 	free(entry->content);
 	free(entry);
 }
 
-int		remove_one(t_list **entries)
+int			remove_one(t_list **entries)
 {
-	t_list 	*prev;
-	t_list 	*tmp;
+	t_list	*prev;
+	t_list	*tmp;
 
 	if (!*entries)
 		return (1);
@@ -83,6 +83,7 @@ int		remove_one(t_list **entries)
 		prev = prev->next;
 	prev->next = tmp->next;
 	*entries = tmp->next;
+	cursor_on_next(tmp);
 	free_entry(tmp);
 	return (0);
 }

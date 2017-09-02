@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 11:15:10 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/08/24 02:18:36 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/02 14:39:17 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,37 @@ int		ft_puts(int n)
 	return (0);
 }
 
-void	cursor_on_entries()
+void	cursor_on_next(t_list *entries)
 {
-	// size_t line_length;
-
-	// line_lenght = get_line_size(entries);
-	char	*capa;	
-	int 	(*fptr)(int);
-
-	capa = get_capstring("cr");
-	fptr = ft_puts;
-	tputs(capa, 1, fptr);
+	while (((t_elem *)(entries->content))->cursor != 1)
+		entries = entries->next;
+	((t_elem *)(entries->content))->cursor = 0;
+	entries = entries->next;
+	((t_elem *)(entries->content))->cursor = 1;
 }
 
-void	cursor_on_next(t_list *entry)
+void	cursor_on_prev(t_list *entries)
 {
-		t_list	*tmp;
+	t_list	*elem;
 
-		tmp = entry;
-		((t_entry *)tmp->content)->cursor = 0;
-		tmp = tmp->next;
-		((t_entry *)tmp->content)->cursor = 1;
+	while (((t_elem *)(entries->content))->cursor != 1)
+		entries = entries->next;
+	elem = entries;
+	((t_elem *)(elem->content))->cursor = 0;
+	while (elem->next != entries)
+		elem = elem->next;
+	((t_elem *)(elem->content))->cursor = 1;
 }
 
-void	cursor_on_prev(t_list *entry)
+void	select_cur(t_list *entries)
 {
-	t_list	*tmp;
-
-	tmp = entry;
-	((t_entry *)tmp->content)->cursor = 0;
-	while (tmp->next != entry)
-		tmp = tmp->next;
-	((t_entry *)tmp->content)->cursor = 1;	
+	while (((t_elem *)(entries->content))->cursor != 1)
+		entries = entries->next;
+	if (((t_elem *)(entries->content))->selected == 0)
+	{
+		((t_elem *)(entries->content))->selected = 1;
+		cursor_on_next(entries);
+	}
+	else
+		((t_elem *)(entries->content))->selected = 0;
 }

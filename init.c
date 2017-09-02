@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:21 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/08/24 01:44:43 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/02 14:51:06 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 t_list	*entry_init_one(char *arg)
 {
-	t_entry	*entry;
+	t_elem	*entry;
 	t_list	*dest;
 
-	if (!(entry = (t_entry *)malloc(sizeof(t_entry))))
+	if (!(entry = (t_elem *)malloc(sizeof(t_elem))))
 	{
 		ft_putendl_fd("ft_select: malloc error", 2);
 		exit(1);
@@ -29,15 +29,15 @@ t_list	*entry_init_one(char *arg)
 	if (!(dest = ft_lstnew(entry, sizeof(entry))))
 	{
 		ft_putendl_fd("ft_select: malloc error", 2);
-		exit(1);	
+		exit(1);
 	}
 	return (dest);
 }
 
 char	*get_env_value(char *field, char **environ)
 {
-	char 	**tmp;
-	size_t 	len;
+	char	**tmp;
+	size_t	len;
 	char	*value;
 
 	len = ft_strlen(field);
@@ -56,11 +56,12 @@ char	*get_env_value(char *field, char **environ)
 	return (NULL);
 }
 
-void	init_checks(char **environ)
+void	init_checks(void)
 {
-	char	*term_name;
-	int		success;
-	static	char	*term_buffer;
+	char			*term_name;
+	int				success;
+	static char		*term_buffer;
+	extern char		**environ;
 
 	if (!(term_name = get_env_value("TERM=", environ)))
 	{
@@ -73,27 +74,10 @@ void	init_checks(char **environ)
 		exit(1);
 	}
 	success = tgetent(term_buffer, term_name);
-	if (!success)
+	if (success <= 0)
 	{
-		ft_putendl_fd("current termtype is not referenced", 2);
+		!success ? ft_putendl_fd("current termtype is not referenced", 2)
+		: ft_putendl_fd("failed to load termcap database", 2);
 		exit(1);
 	}
-	if (success < 0)
-	{
-		ft_putendl_fd("failed to load termcap database", 2);
-		exit(1);
-	}
-}
-
-struct termios *get_term_struct()
-{
-	struct termios *term_info;
-
-	term_info = (struct termios *)malloc(sizeof(struct termios));
-	if (tcgetattr(0, term_info) == -1)
-	{
-		ft_putendl_fd("ft_select:Unable to get term_info, abort.", 2);
-		exit(1);
-	}
-	return (term_info);
 }

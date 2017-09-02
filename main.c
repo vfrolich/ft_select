@@ -6,75 +6,89 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:21:04 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/08/26 17:25:55 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/02 15:58:53 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	read_lul(char *str)
+void	handle_input(char *buffer, t_all *usef)
 {
-	int i;
-
-	i = 0;
-	while (i <= 8 && str[1] != '\n')
+	if (*(unsigned int*)buffer == 27)
 	{
-		ft_putnbr(str[i]);
-		ft_putchar(' ');
-		i++;
+		term_rollback(usef->term);
+		exit(0);
 	}
+	if (buffer[0] == 127)
+	{
+		if (remove_one(&usef->elems))
+		{
+			term_rollback(usef->term);
+			exit(0);
+		}
+	}
+	if (buffer[0] == 27 && buffer[2] == 68)
+		cursor_on_prev(usef->elems);
+	if (buffer[0] == 27 && buffer[2] == 67)
+		cursor_on_next(usef->elems);
+	if (buffer[0] == 32)
+		select_cur(usef->elems);
 }
 
-void	dummy_print(t_list *elem)
+int		main_loop(t_all *usef)
 {
-	t_list	*tmp;
+	char	*buffer;
 
-	tmp = elem;
-	ft_putstr("elem -> ");
-	ft_putendl((((t_entry *)elem->content)->value));
-	ft_putstr("selected -> ");
-	ft_putnbrendl((((t_entry *)elem->content)->selected));
-	tmp = tmp->next;
-	while (tmp != elem)
+	buffer = strgen(5);
+	while (42)
 	{
-		ft_putstr("elem -> ");
-		ft_putendl((((t_entry *)elem->content)->value));
-		ft_putstr("selected -> ");
-		ft_putnbrendl((((t_entry *)elem->content)->selected));
-		tmp = tmp->next;
+		push_cap("cr");
+		tputs(tgetstr("dl", NULL), 1, ft_puts);
+		display_entries(usef->elems);
+		tputs(tgetstr("up", NULL), 1, ft_puts);
+		buffer = read_input(buffer);
+		handle_input(buffer, usef);
 	}
+	return (0);
 }
 
-int main(int argc, char **argv, char **environ)
+t_all	*all_init(t_list *entries)
 {
-	t_list 	*entries;
-	// char	*line;
-	size_t	line_length;
-	char 	*lol;
+	t_all			*dest;
+	struct termios	termi;
 
+	dest = (t_all *)malloc(sizeof(t_all));
+	termi = get_term_struct();
+	dest->term = termi;
+	dest->elems = entries;
+	if ((dest->co = tgetnum("co")) == ERR)
+		write(STDERR_FILENO, "cap error\n", sizeof("cap error\n"));
+	if ((dest->li = tgetnum("li")) == ERR)
+		write(STDERR_FILENO, "cap error\n", sizeof("cap error\n"));
+	return (dest);
+}
+
+int		main(int argc, char **argv)
+{
+	t_list			*entries;
+	void			(*fptr)	(int);
+	t_list			*tmp;
+	struct termios	term;
+	t_all			*usef;
+
+	fptr = sig_handler;
+	signal(SIGINT, fptr);
+	init_checks();
+	term = get_term_struct();
+	entries = get_entries(argv);
+	usef = all_init(entries);
+	if (setting_term())
+		exit(1);
 	if (argc > 1)
 	{
-		entries = get_entries(argv);
-		init_checks(environ);
-		term_init();
-		line_length = get_line_size(entries);
-		lol = strgen(4);
-		((t_entry *)(entries->content))->cursor = 1;
-		// put_cap("vi");
-		while (42)
-		{
-			dummy_print(entries);
-			entries_display(entries);
-			put_cap("cr");
-			lol = read_input(lol);
-			if (lol[0] == 27 && !lol[1])
-				exit(0);
-			if (lol[0] == 27 && lol[2] == 68)
-				cursor_on_prev(entries);
-			if (lol[0] == 27 && lol[2] == 67)
-				cursor_on_next(entries);
-			put_cap("cd");
-		}
+		tmp = entries;
+		((t_elem *)(entries->content))->cursor = 1;
+		main_loop(usef);
 	}
 	return (0);
 }

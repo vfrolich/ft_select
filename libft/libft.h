@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:19:57 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/08/24 01:05:43 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/02 14:52:56 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ typedef	struct			s_list
 	struct s_list		*next;
 }						t_list;
 
-// string manipulation
+/*
+** string manipulation
+*/
+
 size_t					ft_strlen(const char *s1);
 char					*ft_strdup(const char *s1);
 char					*ft_strcpy(char *dst, const char *src);
@@ -61,7 +64,10 @@ char					*ft_strtrim(char const *s);
 char					**ft_strsplit(char const *s, char c);
 char					*ft_str_epur(char *str);
 
-// character testing
+/*
+** character testing
+*/
+
 int						ft_isalnum(int c);
 int						ft_isalnumword(char *str);
 int						ft_isalpha(int c);
@@ -70,7 +76,10 @@ int						ft_isdigit(int c);
 int						ft_isnumber(char *str);
 int						ft_isprint(int c);
 
-// memory
+/*
+** memory
+*/
+
 void					ft_bzero(void *s, size_t n);
 void					*ft_memalloc(size_t size);
 void					*ft_memccpy(void *dst, const void *src,\
@@ -82,7 +91,10 @@ void					ft_memdel(void **ap);
 void					*ft_memmove(void *dst, const void *src, size_t len);
 void					*ft_memset(void *b, int c, size_t len);
 
-// misc
+/*
+** misc
+*/
+
 int						ft_atoi(const char *str);
 char					*ft_itoa(int n);
 int						*ft_range(int min, int max);
@@ -95,7 +107,10 @@ char					**ft_whitespace(char const *s);
 char					*ft_wordtab_to_str(char **wordtab);
 int						get_next_line(const int fd, char **line);
 
-// display
+/*
+** display
+*/
+
 void					ft_putchar(char c);
 void					ft_putchar_fd(char c, int fd);
 void					ft_putendl(char const *s);
@@ -106,7 +121,10 @@ void					ft_putnbrendl(int nb);
 void					ft_putstr(char const *s);
 void					ft_putstr_fd(char const *s, int fd);
 
-// linked list
+/*
+** linked list
+*/
+
 size_t					ft_count_lst(t_list	*lst);
 void					ft_lstadd(t_list **alst, t_list *new);
 void					ft_lstaddend(t_list *alst, t_list *lst);

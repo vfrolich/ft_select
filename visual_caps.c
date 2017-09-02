@@ -1,19 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbrendl.c                                    :+:      :+:    :+:   */
+/*   visual_caps.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/21 10:08:56 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/02 14:44:55 by vfrolich         ###   ########.fr       */
+/*   Created: 2017/08/23 12:06:00 by vfrolich          #+#    #+#             */
+/*   Updated: 2017/09/02 11:54:14 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_select.h"
 
-void	ft_putnbrendl(int nb)
+void	ft_underliner(char *word)
 {
-	ft_putnbr(nb);
-	ft_putchar('\n');
+	push_cap("us");
+	ft_putstr(word);
+	put_cap("ue");
+}
+
+void	inversed_video(char *word)
+{
+	push_cap("mr");
+	ft_putstr(word);
+	push_cap("me");
+}
+
+void	underlined_inversed(char *word)
+{
+	push_cap("us");
+	push_cap("mr");
+	ft_putstr(word);
+	push_cap("ue");
+	push_cap("me");
 }
