@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:21 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/02 14:51:06 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/03 11:14:08 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_list	*entry_init_one(char *arg)
 		ft_putendl_fd("ft_select: malloc error", 2);
 		exit(1);
 	}
+	free(entry);
 	return (dest);
 }
 
@@ -80,4 +81,5 @@ void	init_checks(void)
 		: ft_putendl_fd("failed to load termcap database", 2);
 		exit(1);
 	}
+	ft_strdel(&term_name);
 }

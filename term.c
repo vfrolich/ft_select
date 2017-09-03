@@ -6,20 +6,20 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/23 16:37:30 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/02 14:27:05 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/03 11:06:25 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-int				setting_term(void)
+int					setting_term(void)
 {
 	struct termios	term;
 
 	if (tgetent(NULL, getenv("TERM")) == -1)
 	{
 		write(STDERR_FILENO, "tgetent\n", sizeof("tgetent\n"));
-		abort();
+		exit(1);
 	}
 	if (tcgetattr(0, &term) == -1)
 	{
@@ -38,20 +38,36 @@ int				setting_term(void)
 	return (0);
 }
 
-struct termios	get_term_struct(void)
+void				load_term_struct(void)
 {
-	struct termios	term;
+	ft_bzero(&g_term, sizeof(struct termios));
+	if (tcgetattr(0, &g_term) == -1)
+	{
+		ft_putendl_fd("ft_select: failed to load termios struct, abort", 2);
+		exit(1);
+	}
+	if (tcgetattr(0, &g_term) == -1)
+	{
+		ft_putendl_fd("ft_select: failed to load termios struct, abort", 2);
+		exit(1);
+	}
+}
 
-	ft_bzero(&term, sizeof(struct termios));
-	if (tcgetattr(0, &term) == -1)
-	{
-		ft_putendl_fd("ft_select: failed to load termios struct, abort", 2);
-		exit(1);
-	}
-	if (tcgetattr(0, &term) == -1)
-	{
-		ft_putendl_fd("ft_select: failed to load termios struct, abort", 2);
-		exit(1);
-	}
-	return (term);
+t_all				*all_struct_init(t_list *entries)
+{
+	t_all			*dest;
+	struct ttysize	ts;
+
+	dest = (t_all *)malloc(sizeof(t_all));
+	dest->elems = entries;
+	if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ts) == -1)
+		write(STDERR_FILENO, "ft_select: unable to get term size, abort\n",
+		sizeof("ft_select: unable to get term size, abort\n"));
+	dest->co = ts.ts_cols;
+	dest->li = ts.ts_lines;
+	if ((dest->co = tgetnum("co")) == ERR)
+		write(STDERR_FILENO, "cap error\n", sizeof("cap error\n"));
+	if ((dest->li = tgetnum("li")) == ERR)
+		write(STDERR_FILENO, "cap error\n", sizeof("cap error\n"));
+	return (dest);
 }

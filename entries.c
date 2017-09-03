@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 10:20:02 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/02 14:43:53 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/03 11:21:07 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,28 @@ size_t		count_entries(t_list *entries)
 	return (count);
 }
 
-void		flag_entry(t_list *entry, int on)
+void		return_entries(t_list *entries)
 {
-	if (on)
-		((t_elem *)ARG)->selected = 1;
+	t_list	*tmp;
+
+	tmp = entries;
+	if (ENT->selected)
+	{
+		ft_putstr_fd(ENT->value, STDIN_FILENO);
+		if (!remove_one(&entries))
+			ft_putchar_fd(' ', STDIN_FILENO);
+	}
+	entries = entries->next;
+	while (entries->next != tmp)
+	{
+		if (ENT->selected)
+		{
+			ft_putstr_fd(ENT->value, STDIN_FILENO);
+			if (!remove_one(&entries))
+				ft_putchar_fd(' ', STDIN_FILENO);
+		}
+		entries = entries->next;
+	}
 }
 
 t_list		*get_entries(char **argv)
@@ -60,7 +78,7 @@ t_list		*get_entries(char **argv)
 
 static void	free_entry(t_list *entry)
 {
-	ft_strdel(&((t_elem *)ARG)->value);
+	ft_strdel(&((t_elem *)(entry->content))->value);
 	free(entry->content);
 	free(entry);
 }
