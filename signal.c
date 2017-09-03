@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 09:59:11 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 11:21:33 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/03 11:27:03 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	term_rollback(void)
 {
 	if (tcsetattr(0, TCSANOW, &g_term) == -1)
 		ft_putendl_fd("ft_select: failed to apply changes on term", 2);
-	ft_putendl("flag");
-	tputs(tgetstr("ve", NULL), 0, ft_puts);
+	push_cap("ve");
 	push_cap("te");
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:19:55 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 11:22:00 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/03 13:03:24 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ int					remove_one(t_list **entries);
 void				cursor_on_next(t_list *entry);
 void				cursor_on_prev(t_list *entry);
 void				select_cur(t_list *entries);
+int					another_one_selected(t_list *entries);
 void				return_entries(t_list *entries);
+void				entry_return_one(t_list *entries);
+
 
 /*
 ** signal handling

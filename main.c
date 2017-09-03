@@ -6,21 +6,30 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:21:04 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 11:10:52 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/03 13:18:56 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
+
+void	dummy(char *buffer)
+{
+	int i = 0;
+
+	while (i <= 5)
+	{
+		ft_putnbr(buffer[i]);
+		ft_putchar(32);
+		i++;
+	}
+}
 
 void	handle_input(char *buffer, t_all *usef)
 {
 	if (*(unsigned int*)buffer == 27)
 		term_rollback();
 	if (buffer[0] == 10)
-	{
-		term_rollback();
 		return_entries(usef->elems);
-	}
 	if (buffer[0] == 127)
 	{
 		if (remove_one(&usef->elems))

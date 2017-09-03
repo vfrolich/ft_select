@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 10:20:02 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 11:21:07 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/03 13:02:46 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,20 @@ void		return_entries(t_list *entries)
 	t_list	*tmp;
 
 	tmp = entries;
+	if (tcsetattr(0, TCSANOW, &g_term) == -1)
+		ft_putendl_fd("ft_select: failed to apply changes on term", 2);
+	push_cap("ve");
+	push_cap("te");
 	if (ENT->selected)
-	{
-		ft_putstr_fd(ENT->value, STDIN_FILENO);
-		if (!remove_one(&entries))
-			ft_putchar_fd(' ', STDIN_FILENO);
-	}
+		entry_return_one(entries);
 	entries = entries->next;
-	while (entries->next != tmp)
+	while (entries != tmp)
 	{
 		if (ENT->selected)
-		{
-			ft_putstr_fd(ENT->value, STDIN_FILENO);
-			if (!remove_one(&entries))
-				ft_putchar_fd(' ', STDIN_FILENO);
-		}
+			entry_return_one(entries);
 		entries = entries->next;
 	}
+	exit(0);
 }
 
 t_list		*get_entries(char **argv)
