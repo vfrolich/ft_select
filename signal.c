@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 09:59:11 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 11:27:03 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/05 15:56:13 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,4 @@ void	sig_handler(int sig)
 		setting_term();
 	if (sig == SIGQUIT)
 		term_rollback();
-	if (sig == SIGWINCH)
-	{
-		term_rollback();
-		exit(0);
-	}
 }

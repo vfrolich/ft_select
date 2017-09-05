@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:19:55 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 13:03:24 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/05 16:10:39 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,25 @@ typedef struct		s_elem
 	int				cursor;
 }					t_elem;
 
+typedef struct		s_printinfo
+{
+	int				nb_word;
+	int				lines_needed;
+	int				largest_word;
+}					t_printinfo;
+
 typedef struct		s_all
 {
 	t_list			*elems;
-	int				co;
-	int				li;
+	char			**sorted_array;
+	t_printinfo		*d_infos;
 }					t_all;
 
 /*
 ** retrieving info from term
 */
 
+size_t				get_term_size(char *field);
 char				*get_term_infos(void);
 void				load_term_struct(void);
 t_all				*all_struct_init(t_list *entries);
@@ -52,7 +60,7 @@ t_all				*all_struct_init(t_list *entries);
 
 size_t				get_line_size(t_list *entries);
 char				*line_init(t_list *entries);
-int					line_check(size_t line_length);
+int					line_check(t_all *usef);
 
 /*
 ** entries handle
@@ -68,7 +76,6 @@ void				select_cur(t_list *entries);
 int					another_one_selected(t_list *entries);
 void				return_entries(t_list *entries);
 void				entry_return_one(t_list *entries);
-
 
 /*
 ** signal handling
@@ -93,7 +100,8 @@ void				inversed_video(char	*word);
 ** display
 */
 
-void				display_entries(t_list *entry);
+t_printinfo			*display_info(t_all *usef);
+void				display_entries(t_all *usef);
 int					ft_puts(int n);
 void				push_cap(char *const cap);
 
@@ -105,5 +113,6 @@ char				*get_env_value(char *field, char **environ);
 char				*strgen(size_t lenght);
 int					wordcut(char *str, size_t width);
 void				init_checks(void);
+char				**entries_array(t_all *usef);
 
 #endif

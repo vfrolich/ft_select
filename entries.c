@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 10:20:02 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 13:02:46 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/05 08:50:38 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,20 @@ t_list		*get_entries(char **argv)
 {
 	t_list	*head;
 	t_list	*new;
+	char	**tmp;
 
-	argv++;
-	head = entry_init_one(*argv);
-	argv++;
-	while (*argv)
+	tmp = argv;
+	tmp++;
+	head = entry_init_one(*tmp);
+	tmp++;
+	while (*tmp)
 	{
-		if (**argv)
+		if (**tmp)
 		{
-			new = entry_init_one(*argv);
+			new = entry_init_one(*tmp);
 			lst_add(new, &head);
 		}
-		argv++;
+		tmp++;
 	}
 	if (!head->next)
 		head->next = head;

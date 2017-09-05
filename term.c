@@ -6,11 +6,26 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/23 16:37:30 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 11:06:25 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/05 16:00:15 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
+
+size_t				get_term_size(char *field)
+{
+	struct ttysize	w;
+
+	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == -1)
+	{
+		write(STDERR_FILENO, "ft_select: unable to get term size, abort\n",
+		sizeof("ft_select: unable to get term size, abort\n"));
+		exit(1);
+	}
+	if (!ft_strcmp(field, "lines"))
+		return (w.ts_lines);
+	return (w.ts_cols);
+}
 
 int					setting_term(void)
 {
@@ -56,18 +71,15 @@ void				load_term_struct(void)
 t_all				*all_struct_init(t_list *entries)
 {
 	t_all			*dest;
-	struct ttysize	ts;
 
-	dest = (t_all *)malloc(sizeof(t_all));
-	dest->elems = entries;
-	if (ioctl(STDIN_FILENO, TIOCGWINSZ, &ts) == -1)
-		write(STDERR_FILENO, "ft_select: unable to get term size, abort\n",
+	if (!(dest = (t_all *)malloc(sizeof(t_all))))
+	{
+		write(STDERR_FILENO, "ft_select: malloc error, abort.\n",
 		sizeof("ft_select: unable to get term size, abort\n"));
-	dest->co = ts.ts_cols;
-	dest->li = ts.ts_lines;
-	if ((dest->co = tgetnum("co")) == ERR)
-		write(STDERR_FILENO, "cap error\n", sizeof("cap error\n"));
-	if ((dest->li = tgetnum("li")) == ERR)
-		write(STDERR_FILENO, "cap error\n", sizeof("cap error\n"));
+		exit(1);
+	}
+	dest->elems = entries;
+	dest->sorted_array = entries_array(dest);
+	dest->d_infos = display_info(dest);
 	return (dest);
 }

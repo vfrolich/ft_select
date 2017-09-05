@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:17:49 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 13:02:07 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/05 16:04:27 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,6 @@ char	*strgen(size_t lenght)
 	return (line);
 }
 
-int		wordcut(char *str, size_t width)
-{
-	char	*tmp;
-	size_t	index;
-
-	tmp = str;
-	index = 0;
-	while (index < width)
-	{
-		index++;
-		tmp++;
-	}
-	return (*tmp ? 1 : 0);
-}
-
 int		another_one_selected(t_list *entries)
 {
 	t_list *tmp;
@@ -67,5 +52,5 @@ void	entry_return_one(t_list *entries)
 	ft_putstr_fd(ENT->value, STDOUT_FILENO);
 	if (another_one_selected(entries))
 		ft_putchar_fd(' ', STDOUT_FILENO);
-	ENT->selected = 0;	
+	ENT->selected = 0;
 }

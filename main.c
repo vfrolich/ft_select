@@ -6,25 +6,26 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:21:04 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 13:18:56 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/05 16:01:45 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	dummy(char *buffer)
+void		screen_clear(t_printinfo *infos)
 {
-	int i = 0;
+	int		i;
 
-	while (i <= 5)
+	i = 0;
+	while (i <= infos->lines_needed)
 	{
-		ft_putnbr(buffer[i]);
-		ft_putchar(32);
+		push_cap("dl");
+		push_cap("up");
 		i++;
 	}
 }
 
-void	handle_input(char *buffer, t_all *usef)
+void		handle_input(char *buffer, t_all *usef)
 {
 	if (*(unsigned int*)buffer == 27)
 		term_rollback();
@@ -43,17 +44,17 @@ void	handle_input(char *buffer, t_all *usef)
 		select_cur(usef->elems);
 }
 
-int		main_loop(t_all *usef)
+int			main_loop(t_all *usef)
 {
 	char	*buffer;
 
 	buffer = strgen(5);
+	push_cap("cr");
 	while (42)
 	{
-		push_cap("cr");
-		push_cap("dl");
-		display_entries(usef->elems);
-		push_cap("up");
+		screen_clear(usef->d_infos);
+		if (!line_check(usef))
+			display_entries(usef);
 		all_signal_handler();
 		buffer = read_input(buffer);
 		handle_input(buffer, usef);
@@ -62,11 +63,10 @@ int		main_loop(t_all *usef)
 	return (0);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
-	t_list			*entries;
-	t_list			*tmp;
-	t_all			*usef;
+	t_list	*entries;
+	t_all	*usef;
 
 	if (argc <= 1)
 	{
@@ -80,7 +80,6 @@ int		main(int argc, char **argv)
 	usef = all_struct_init(entries);
 	if (setting_term())
 		exit(1);
-	tmp = entries;
 	((t_elem *)(entries->content))->cursor = 1;
 	main_loop(usef);
 	return (0);
