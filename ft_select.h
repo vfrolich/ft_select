@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:19:55 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/05 16:10:39 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/08 15:13:27 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int					line_check(t_all *usef);
 t_list				*entry_init_one(char *arg);
 size_t				count_entries(t_list *entries);
 t_list				*get_entries(char **argv);
-int					remove_one(t_list **entries);
+t_list				*remove_one(t_list *entries);
 void				cursor_on_next(t_list *entry);
 void				cursor_on_prev(t_list *entry);
 void				select_cur(t_list *entries);

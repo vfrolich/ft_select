@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:21:04 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/05 16:01:45 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/08 15:39:51 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ void		handle_input(char *buffer, t_all *usef)
 	if (buffer[0] == 10)
 		return_entries(usef->elems);
 	if (buffer[0] == 127)
-	{
-		if (remove_one(&usef->elems))
-			term_rollback();
-	}
+		usef->elems = remove_one(usef->elems);
 	if (buffer[0] == 27 && buffer[2] == 68)
 		cursor_on_prev(usef->elems);
 	if (buffer[0] == 27 && buffer[2] == 67)

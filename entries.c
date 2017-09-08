@@ -6,31 +6,15 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 10:20:02 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/05 08:50:38 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/08 16:08:10 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-size_t		count_entries(t_list *entries)
+void			return_entries(t_list *entries)
 {
-	t_list	*tmp;
-	size_t	count;
-
-	tmp = entries;
-	count = 1;
-	tmp = tmp->next;
-	while (tmp != entries)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-	return (count);
-}
-
-void		return_entries(t_list *entries)
-{
-	t_list	*tmp;
+	t_list		*tmp;
 
 	tmp = entries;
 	if (tcsetattr(0, TCSANOW, &g_term) == -1)
@@ -49,11 +33,11 @@ void		return_entries(t_list *entries)
 	exit(0);
 }
 
-t_list		*get_entries(char **argv)
+t_list			*get_entries(char **argv)
 {
-	t_list	*head;
-	t_list	*new;
-	char	**tmp;
+	t_list		*head;
+	t_list		*new;
+	char		**tmp;
 
 	tmp = argv;
 	tmp++;
@@ -75,32 +59,48 @@ t_list		*get_entries(char **argv)
 	return (head);
 }
 
-static void	free_entry(t_list *entry)
+static void		free_entry(t_list *entry)
 {
 	ft_strdel(&((t_elem *)(entry->content))->value);
 	free(entry->content);
 	free(entry);
 }
 
-int			remove_one(t_list **entries)
+static t_list	*go_to_prev(t_list *entries)
 {
-	t_list	*prev;
-	t_list	*tmp;
+	t_list		*prev;
 
-	if (!*entries)
-		return (1);
-	tmp = *entries;
-	if (tmp == tmp->next)
+	prev = entries->next;
+	while (prev->next != entries)
+		prev = prev->next;
+	return (prev);
+}
+
+t_list			*remove_one(t_list *entries)
+{
+	t_list		*prev;
+	t_list		*tmp;
+	t_list		*origin;
+
+	if (entries == entries->next)
+		term_rollback();
+	origin = entries;
+	tmp = entries;
+	prev = entries->next;
+	prev = go_to_prev(entries);
+	while (((t_elem *)(tmp->content))->cursor != 1)
+	{
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	entries = tmp->next;
+	((t_elem *)(entries->content))->cursor = 1;
+	prev->next = entries;
+	if (origin != tmp)
 	{
 		free_entry(tmp);
-		return (1);
+		return (origin);
 	}
-	prev = tmp;
-	while (prev->next != tmp)
-		prev = prev->next;
-	prev->next = tmp->next;
-	*entries = tmp->next;
-	cursor_on_next(tmp);
 	free_entry(tmp);
-	return (0);
+	return (entries);
 }

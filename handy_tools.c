@@ -6,22 +6,22 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:17:49 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/05 16:04:27 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/08 16:07:32 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-char	*read_input(char *buffer)
+char		*read_input(char *buffer)
 {
 	ft_bzero(buffer, 4);
 	read(0, buffer, 4);
 	return (buffer);
 }
 
-char	*strgen(size_t lenght)
+char		*strgen(size_t lenght)
 {
-	char *line;
+	char	*line;
 
 	if (!(line = ft_strnew(lenght)))
 	{
@@ -32,9 +32,9 @@ char	*strgen(size_t lenght)
 	return (line);
 }
 
-int		another_one_selected(t_list *entries)
+int			another_one_selected(t_list *entries)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = entries;
 	tmp = tmp->next;
@@ -47,10 +47,26 @@ int		another_one_selected(t_list *entries)
 	return (0);
 }
 
-void	entry_return_one(t_list *entries)
+void		entry_return_one(t_list *entries)
 {
 	ft_putstr_fd(ENT->value, STDOUT_FILENO);
 	if (another_one_selected(entries))
 		ft_putchar_fd(' ', STDOUT_FILENO);
 	ENT->selected = 0;
+}
+
+size_t		count_entries(t_list *entries)
+{
+	t_list	*tmp;
+	size_t	count;
+
+	tmp = entries;
+	count = 1;
+	tmp = tmp->next;
+	while (tmp != entries)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	return (count);
 }
