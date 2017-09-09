@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:21 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/09 12:27:37 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 18:07:01 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ t_list			*get_entries(char **argv)
 t_all			*all_struct_init(t_list *entries)
 {
 	t_all		*dest;
+	char		*name;
+	int			fd;
 
 	if (!(dest = (t_all *)malloc(sizeof(t_all))))
 	{
@@ -74,5 +76,13 @@ t_all			*all_struct_init(t_list *entries)
 	dest->elems = entries;
 	dest->sorted_array = entries_array(dest);
 	dest->d_infos = display_info(dest);
+	if (!isatty(1))
+	{
+		name = ttyname(0);
+		fd = open(name, O_WRONLY);
+		dest->fd = fd;
+	}
+	else
+		dest->fd = STDIN_FILENO;
 	return (dest);
 }

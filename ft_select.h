@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:19:55 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/09 12:36:12 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 18:49:31 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <curses.h>
 # include <term.h>
 # include <sys/ioctl.h>
+# include <signal.h>
+# include <fcntl.h>
 
 # define ENT ((t_elem *)(entries->content))
 
@@ -43,6 +45,7 @@ typedef struct		s_all
 	t_list			*elems;
 	char			**sorted_array;
 	t_printinfo		*d_infos;
+	int				fd;
 }					t_all;
 
 /*
@@ -62,9 +65,9 @@ char				**entries_array(t_all *usef);
 ** visual capabilities
 */
 
-void				ft_underliner(char *word);
-void				underlined_inversed(char *word);
-void				inversed_video(char	*word);
+void				ft_underliner(char *word, int fd);
+void				underlined_inversed(char *word, int fd);
+void				inversed_video(char	*word, int fd);
 
 /*
 ** entries handle
@@ -80,8 +83,7 @@ void				return_entries(t_list *entries);
 ** signal handling
 */
 
-void				all_signal_handler(void);
-void				sig_handler(int sig);
+void				sigaction_handler(void);
 void				term_rollback(void);
 
 /*
@@ -93,6 +95,5 @@ t_printinfo			*display_info(t_all *usef);
 int					line_check(t_all *usef);
 void				display_entries(t_all *usef);
 void				push_cap(char *const cap);
-void				screen_clear(t_printinfo *infos);
 
 #endif
