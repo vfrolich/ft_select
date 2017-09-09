@@ -6,26 +6,13 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:21:04 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/08 15:39:51 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 11:16:51 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void		screen_clear(t_printinfo *infos)
-{
-	int		i;
-
-	i = 0;
-	while (i <= infos->lines_needed)
-	{
-		push_cap("dl");
-		push_cap("up");
-		i++;
-	}
-}
-
-void		handle_input(char *buffer, t_all *usef)
+static void		handle_input(char *buffer, t_all *usef)
 {
 	if (*(unsigned int*)buffer == 27)
 		term_rollback();
@@ -41,9 +28,9 @@ void		handle_input(char *buffer, t_all *usef)
 		select_cur(usef->elems);
 }
 
-int			main_loop(t_all *usef)
+static int		main_loop(t_all *usef)
 {
-	char	*buffer;
+	char		*buffer;
 
 	buffer = strgen(5);
 	push_cap("cr");
@@ -53,17 +40,18 @@ int			main_loop(t_all *usef)
 		if (!line_check(usef))
 			display_entries(usef);
 		all_signal_handler();
-		buffer = read_input(buffer);
+		ft_bzero(buffer, 4);
+		read(STDIN_FILENO, buffer, 4);
 		handle_input(buffer, usef);
-		ft_strclr(buffer);
+		ft_bzero(buffer, 5);
 	}
 	return (0);
 }
 
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
-	t_list	*entries;
-	t_all	*usef;
+	t_list		*entries;
+	t_all		*usef;
 
 	if (argc <= 1)
 	{

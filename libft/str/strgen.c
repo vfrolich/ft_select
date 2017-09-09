@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   capability.c                                       :+:      :+:    :+:   */
+/*   strgen.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/17 11:03:40 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 11:15:59 by vfrolich         ###   ########.fr       */
+/*   Created: 2017/09/09 12:30:47 by vfrolich          #+#    #+#             */
+/*   Updated: 2017/09/09 12:35:43 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_select.h"
+#include "../libft.h"
 
-void	push_cap(char *const cap)
+char		*strgen(size_t lenght)
 {
-	char	*str;
+	char	*line;
 
-	str = tgetstr(cap, NULL);
-	if (str)
-		write(STDOUT_FILENO, str, ft_strlen(str));
-	else
-		write(STDERR_FILENO, "cap error\n", sizeof("cap error\n"));
+	if (!(line = ft_strnew(lenght)))
+	{
+		ft_putstr_fd("no memory	available for string buffer, need: ", 2);
+		ft_putnbr(lenght);
+		ft_putendl_fd(" abort.", 2);
+		exit(1);
+	}
+	return (line);
 }

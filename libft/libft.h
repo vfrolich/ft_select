@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:19:57 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/02 14:52:56 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 12:35:34 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char					*ft_strdup(const char *s1);
 char					*ft_strcpy(char *dst, const char *src);
 char					*ft_strncpy(char *dst, const char *src, size_t len);
 char					*ft_strnew(size_t size);
+char					*strgen(size_t lenght);
 void					ft_strdel(char **as);
 void					ft_strclr(char *s);
 char					*ft_strcut(char *str, char c);

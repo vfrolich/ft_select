@@ -1,63 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entries.c                                          :+:      :+:    :+:   */
+/*   entries_handle.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 10:20:02 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/08 16:08:10 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 11:28:38 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
-
-void			return_entries(t_list *entries)
-{
-	t_list		*tmp;
-
-	tmp = entries;
-	if (tcsetattr(0, TCSANOW, &g_term) == -1)
-		ft_putendl_fd("ft_select: failed to apply changes on term", 2);
-	push_cap("ve");
-	push_cap("te");
-	if (ENT->selected)
-		entry_return_one(entries);
-	entries = entries->next;
-	while (entries != tmp)
-	{
-		if (ENT->selected)
-			entry_return_one(entries);
-		entries = entries->next;
-	}
-	exit(0);
-}
-
-t_list			*get_entries(char **argv)
-{
-	t_list		*head;
-	t_list		*new;
-	char		**tmp;
-
-	tmp = argv;
-	tmp++;
-	head = entry_init_one(*tmp);
-	tmp++;
-	while (*tmp)
-	{
-		if (**tmp)
-		{
-			new = entry_init_one(*tmp);
-			lst_add(new, &head);
-		}
-		tmp++;
-	}
-	if (!head->next)
-		head->next = head;
-	else
-		new->next = head;
-	return (head);
-}
 
 static void		free_entry(t_list *entry)
 {

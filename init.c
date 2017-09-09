@@ -6,16 +6,16 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:21 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/03 11:14:08 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 12:27:37 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_list	*entry_init_one(char *arg)
+static t_list	*entry_init_one(char *arg)
 {
-	t_elem	*entry;
-	t_list	*dest;
+	t_elem		*entry;
+	t_list		*dest;
 
 	if (!(entry = (t_elem *)malloc(sizeof(t_elem))))
 	{
@@ -35,51 +35,44 @@ t_list	*entry_init_one(char *arg)
 	return (dest);
 }
 
-char	*get_env_value(char *field, char **environ)
+t_list			*get_entries(char **argv)
 {
-	char	**tmp;
-	size_t	len;
-	char	*value;
+	t_list		*head;
+	t_list		*new;
+	char		**tmp;
 
-	len = ft_strlen(field);
-	tmp = environ;
-	while (*environ)
+	tmp = argv;
+	tmp++;
+	head = entry_init_one(*tmp);
+	tmp++;
+	while (*tmp)
 	{
-		if (!ft_strncmp(field, *environ, len))
+		if (**tmp)
 		{
-			value = ft_strsub(*environ, len, ft_strlen(*environ) - len);
-			environ = tmp;
-			return (value);
+			new = entry_init_one(*tmp);
+			lst_add(new, &head);
 		}
-		environ++;
+		tmp++;
 	}
-	environ = tmp;
-	return (NULL);
+	if (!head->next)
+		head->next = head;
+	else
+		new->next = head;
+	return (head);
 }
 
-void	init_checks(void)
+t_all			*all_struct_init(t_list *entries)
 {
-	char			*term_name;
-	int				success;
-	static char		*term_buffer;
-	extern char		**environ;
+	t_all		*dest;
 
-	if (!(term_name = get_env_value("TERM=", environ)))
+	if (!(dest = (t_all *)malloc(sizeof(t_all))))
 	{
-		ft_putendl_fd("failed to find term name from environ", 2);
+		write(STDERR_FILENO, "ft_select: malloc error, abort.\n",
+		sizeof("ft_select: unable to get term size, abort\n"));
 		exit(1);
 	}
-	if (!(term_buffer = ft_strnew(2048)))
-	{
-		ft_putendl_fd("malloc of term_buffer failed", 2);
-		exit(1);
-	}
-	success = tgetent(term_buffer, term_name);
-	if (success <= 0)
-	{
-		!success ? ft_putendl_fd("current termtype is not referenced", 2)
-		: ft_putendl_fd("failed to load termcap database", 2);
-		exit(1);
-	}
-	ft_strdel(&term_name);
+	dest->elems = entries;
+	dest->sorted_array = entries_array(dest);
+	dest->d_infos = display_info(dest);
+	return (dest);
 }

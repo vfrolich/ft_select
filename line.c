@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:14:30 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/05 16:03:27 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 10:55:16 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int				line_check(t_all *usef)
 	int			term_lines;
 	int			term_cols;
 
+	if (usef->d_infos != NULL)
+		free(usef->d_infos);
 	usef->d_infos = display_info(usef);
 	term_lines = get_term_size("lines");
 	term_cols = get_term_size("cols");
@@ -48,22 +50,6 @@ static int		word_per_line(char **entries_array)
 		entries_array++;
 	}
 	return (word_nb);
-}
-
-size_t			get_line_size(t_list *entries)
-{
-	size_t		total_size;
-	t_list		*tmp;
-
-	total_size = ft_strlen(entries->content);
-	tmp = entries->next;
-	while (tmp != entries)
-	{
-		total_size += ft_strlen(tmp->content);
-		total_size++;
-		tmp = tmp->next;
-	}
-	return (total_size);
 }
 
 t_printinfo		*display_info(t_all *usef)

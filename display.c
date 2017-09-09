@@ -6,15 +6,15 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:03 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/05 16:10:58 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 12:27:51 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	display_one(t_list *elem, int largest_word)
+static void			display_one(t_list *elem, int largest_word)
 {
-	int	padding;
+	int				padding;
 
 	if (((t_elem *)(elem->content))->cursor == 1 &&
 		((t_elem *)(elem->content))->selected == 1)
@@ -33,10 +33,10 @@ void	display_one(t_list *elem, int largest_word)
 	}
 }
 
-void	display_entries(t_all *usef)
+void				display_entries(t_all *usef)
 {
-	t_list	*tmp;
-	int		nb_words;
+	t_list			*tmp;
+	int				nb_words;
 
 	tmp = usef->elems;
 	display_one(tmp, usef->d_infos->largest_word);
@@ -53,4 +53,43 @@ void	display_entries(t_all *usef)
 		ft_putchar('\n');
 		nb_words = 0;
 	}
+}
+
+void				screen_clear(t_printinfo *infos)
+{
+	int				i;
+
+	i = 0;
+	while (i <= infos->lines_needed)
+	{
+		push_cap("dl");
+		push_cap("up");
+		i++;
+	}
+}
+
+size_t				get_term_size(char *field)
+{
+	struct ttysize	w;
+
+	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == -1)
+	{
+		write(STDERR_FILENO, "ft_select: unable to get term size, abort\n",
+		sizeof("ft_select: unable to get term size, abort\n"));
+		exit(1);
+	}
+	if (!ft_strcmp(field, "lines"))
+		return (w.ts_lines);
+	return (w.ts_cols);
+}
+
+void				push_cap(char *const cap)
+{
+	char			*str;
+
+	str = tgetstr(cap, NULL);
+	if (str)
+		write(STDOUT_FILENO, str, ft_strlen(str));
+	else
+		write(STDERR_FILENO, "cap error\n", sizeof("cap error\n"));
 }

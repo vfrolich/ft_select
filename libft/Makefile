@@ -17,7 +17,7 @@ STR= str/ft_str_epur.c str/ft_strcat.c str/ft_strchr.c str/ft_strclr.c str/ft_st
 	 str/ft_strjoin.c str/ft_strjoin_free.c str/ft_strjoin_free_one.c str/ft_strlcat.c str/ft_strlen.c\
 	 str/ft_strmap.c str/ft_strmapi.c str/ft_strncat.c str/ft_strncmp.c str/ft_strncpy.c str/ft_strnequ.c\
 	 str/ft_strnew.c str/ft_strnstr.c str/ft_strrchr.c str/ft_strsplit.c str/ft_strstr.c str/ft_strsub.c\
-	 str/ft_strtrim.c
+	 str/ft_strtrim.c str/strgen.c
 SRCS := $(CHECKS) $(DISPLAY) $(LST) $(MEM) $(MISC) $(STR)
 OBJ= ft_isalnum.o ft_isalnumword.o ft_isalpha.o ft_isascii.o ft_isdigit.o ft_isnumber.o ft_isprint.o\
 ft_putchar.o ft_putchar_fd.o ft_putendl.o ft_putendl_fd.o ft_putnbr.o ft_putnbr_fd.o ft_putstr.o ft_putstr_fd.o \
@@ -26,7 +26,8 @@ ft_bzero.o ft_memalloc.o ft_memccpy.o ft_memchr.o ft_memcmp.o ft_memcpy.o ft_mem
 ft_atoi.o ft_itoa.o ft_range.o ft_sqrt.o ft_swap.o ft_tab_size.o ft_tolower.o ft_toupper.o ft_whitespace.o ft_wordtab_to_str.o get_next_line.o \
 ft_str_epur.o ft_strcat.o ft_strchr.o ft_strclr.o ft_strcmp.o ft_strcpy.o ft_strcut.o ft_strdel.o ft_strdup.o ft_strequ.o ft_striter.o \
 ft_striteri.o ft_strjoin.o ft_strjoin_free.o ft_strjoin_free_one.o ft_strlcat.o ft_strlen.o ft_strmap.o ft_strmapi.o ft_strncat.o \
-ft_strncmp.o ft_strncpy.o ft_strnequ.o ft_strnew.o ft_strnstr.o ft_strrchr.o ft_strsplit.o ft_strstr.o ft_strsub.o ft_strtrim.o ft_putnbrendl.o
+ft_strncmp.o ft_strncpy.o ft_strnequ.o ft_strnew.o ft_strnstr.o ft_strrchr.o ft_strsplit.o ft_strstr.o ft_strsub.o ft_strtrim.o ft_putnbrendl.o \
+strgen.o
 
 all: $(NAME)
 

@@ -6,22 +6,11 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 11:15:10 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/02 14:39:17 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 10:35:12 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
-
-int		ft_puts(int n)
-{
-	char c;
-
-	if (n < 0)
-		return (-1);
-	c = (char)n;
-	ft_putchar(c);
-	return (0);
-}
 
 void	cursor_on_next(t_list *entries)
 {

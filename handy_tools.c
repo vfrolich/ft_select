@@ -6,59 +6,16 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:17:49 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/08 16:07:32 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/09 12:35:58 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-char		*read_input(char *buffer)
+static size_t	count_entries(t_list *entries)
 {
-	ft_bzero(buffer, 4);
-	read(0, buffer, 4);
-	return (buffer);
-}
-
-char		*strgen(size_t lenght)
-{
-	char	*line;
-
-	if (!(line = ft_strnew(lenght)))
-	{
-		ft_putendl_fd("ft_select: no memory	available for line buf, need: ", 2);
-		ft_putendl_fd(" abort.", 2);
-		exit(1);
-	}
-	return (line);
-}
-
-int			another_one_selected(t_list *entries)
-{
-	t_list	*tmp;
-
-	tmp = entries;
-	tmp = tmp->next;
-	while (tmp != entries)
-	{
-		if (((t_elem *)(tmp->content))->selected)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-void		entry_return_one(t_list *entries)
-{
-	ft_putstr_fd(ENT->value, STDOUT_FILENO);
-	if (another_one_selected(entries))
-		ft_putchar_fd(' ', STDOUT_FILENO);
-	ENT->selected = 0;
-}
-
-size_t		count_entries(t_list *entries)
-{
-	t_list	*tmp;
-	size_t	count;
+	t_list		*tmp;
+	size_t		count;
 
 	tmp = entries;
 	count = 1;
@@ -69,4 +26,61 @@ size_t		count_entries(t_list *entries)
 		tmp = tmp->next;
 	}
 	return (count);
+}
+
+static int		sorted_array(char **entries_array)
+{
+	int			i;
+
+	i = 0;
+	while (entries_array[i + 1])
+	{
+		if (ft_strlen(entries_array[i]) < ft_strlen(entries_array[i + 1]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static char		**sort_array(char **entries_array)
+{
+	int			i;
+	char		*tmp;
+
+	i = 0;
+	while (entries_array[i + 1])
+	{
+		if (ft_strlen(entries_array[i]) < ft_strlen(entries_array[i + 1]))
+		{
+			tmp = entries_array[i];
+			entries_array[i] = entries_array[i + 1];
+			entries_array[i + 1] = tmp;
+		}
+		i++;
+	}
+	if (sorted_array(entries_array))
+		sort_array(entries_array);
+	return (entries_array);
+}
+
+char			**entries_array(t_all *usef)
+{
+	char		**dest;
+	char		**start;
+	t_list		*tmp;
+
+	tmp = usef->elems;
+	dest = (char **)malloc(sizeof(char *) * (count_entries(usef->elems) + 1));
+	start = dest;
+	*dest = ft_strdup(((t_elem *)(tmp->content))->value);
+	tmp = tmp->next;
+	dest++;
+	while (tmp != usef->elems)
+	{
+		*dest = ft_strdup(((t_elem *)(tmp->content))->value);
+		tmp = tmp->next;
+		dest++;
+	}
+	*dest = NULL;
+	return (sort_array(start));
 }
