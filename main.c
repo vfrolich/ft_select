@@ -6,13 +6,11 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:21:04 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/09 18:51:44 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/10 09:44:24 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
-
-t_all	*g_all;
 
 static void		handle_input(char *buffer, t_all *usef)
 {
@@ -35,14 +33,13 @@ static int		main_loop(t_all *usef)
 	char		*buffer;
 
 	buffer = strgen(5);
-	sigaction_handler();
 	while (42)
 	{
+		sigaction_handler();
 		push_cap("cl");
-		if (!line_check(usef))
-			display_entries(usef);
+		display_entries(usef);
 		ft_bzero(buffer, 4);
-		read(STDIN_FILENO, buffer, 4);
+		read(STDIN_FILENO, buffer, 4);	
 		handle_input(buffer, usef);
 		ft_bzero(buffer, 5);
 	}

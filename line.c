@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:14:30 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/09 10:55:16 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/10 10:37:11 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 int				line_check(t_all *usef)
 {
-	int			term_lines;
-	int			term_cols;
+	size_t			term_lines;
+	size_t			term_cols;
 
 	if (usef->d_infos != NULL)
 		free(usef->d_infos);
 	usef->d_infos = display_info(usef);
 	term_lines = get_term_size("lines");
 	term_cols = get_term_size("cols");
-	if (usef->d_infos->lines_needed > term_lines)
+	if (!term_lines || !term_cols)
+		return (-1);
+	if ((size_t)usef->d_infos->lines_needed > term_lines)
 		return (-1);
 	return (0);
 }

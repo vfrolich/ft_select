@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:03 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/09 19:08:59 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/10 09:57:37 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void				display_entries(t_all *usef)
 	t_list			*tmp;
 	int				nb_words;
 
+	if (line_check(usef) == -1)
+		return ;
 	tmp = usef->elems;
 	display_one(tmp, usef->d_infos->largest_word, usef->fd);
 	tmp = tmp->next;
@@ -57,17 +59,17 @@ void				display_entries(t_all *usef)
 
 size_t				get_term_size(char *field)
 {
-	struct ttysize	w;
+	struct winsize	win;
 
-	if (ioctl(STDIN_FILENO, TIOCGWINSZ, &w) == -1)
+	if (ioctl(STDIN_FILENO, TIOCGSIZE, &win) == -1)
 	{
-		write(STDERR_FILENO, "ft_select: unable to get term size, abort\n",
-		sizeof("ft_select: unable to get term size, abort\n"));
-		exit(1);
-	}
+		write(STDERR_FILENO, "ft_select: unable to get terminal size\n",
+			sizeof("ft_select: unable to get terminal size\n"));
+		return (0);
+	}	
 	if (!ft_strcmp(field, "lines"))
-		return (w.ts_lines);
-	return (w.ts_cols);
+		return (win.ws_row);
+	return (win.ws_col);
 }
 
 void				push_cap(char *const cap)
