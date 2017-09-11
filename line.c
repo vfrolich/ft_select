@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:14:30 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/10 10:37:11 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/11 08:33:51 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				line_check(t_all *usef)
 	usef->d_infos = display_info(usef);
 	term_lines = get_term_size("lines");
 	term_cols = get_term_size("cols");
-	if (!term_lines || !term_cols)
+	if (!term_lines || !term_cols || !usef->d_infos->nb_word)
 		return (-1);
 	if ((size_t)usef->d_infos->lines_needed > term_lines)
 		return (-1);
@@ -41,7 +41,7 @@ static int		word_per_line(char **entries_array)
 	wordstack += largest;
 	term_cols = get_term_size("cols");
 	if (wordstack > term_cols)
-		return (-1);
+		return (0);
 	word_nb = 1;
 	while (*entries_array)
 	{
@@ -59,6 +59,7 @@ t_printinfo		*display_info(t_all *usef)
 	char		**tmp;
 	t_printinfo	*dest;
 
+	dest = NULL;
 	if (!(dest = (t_printinfo *)malloc(sizeof(t_printinfo))))
 	{
 		write(STDERR_FILENO, "ft_select: malloc error, abort.\n",
@@ -68,6 +69,8 @@ t_printinfo		*display_info(t_all *usef)
 	tmp = usef->sorted_array;
 	dest->largest_word = ft_strlen(*tmp) + 1;
 	dest->nb_word = word_per_line(tmp);
+	if (dest->nb_word == 0)
+		return (dest);
 	tmp = usef->sorted_array;
 	if (!(ft_tab_size(tmp) % dest->nb_word))
 		dest->lines_needed = ft_tab_size(tmp) / dest->nb_word;

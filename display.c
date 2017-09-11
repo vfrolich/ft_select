@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:03 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/10 09:57:37 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/11 08:51:11 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ size_t				get_term_size(char *field)
 {
 	struct winsize	win;
 
+	ft_bzero(&win, sizeof(win));
 	if (ioctl(STDIN_FILENO, TIOCGSIZE, &win) == -1)
 	{
 		write(STDERR_FILENO, "ft_select: unable to get terminal size\n",
 			sizeof("ft_select: unable to get terminal size\n"));
 		return (0);
-	}	
+	}
 	if (!ft_strcmp(field, "lines"))
 		return (win.ws_row);
 	return (win.ws_col);

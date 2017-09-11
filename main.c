@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:21:04 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/10 09:44:24 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/11 08:50:58 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int		main_loop(t_all *usef)
 		push_cap("cl");
 		display_entries(usef);
 		ft_bzero(buffer, 4);
-		read(STDIN_FILENO, buffer, 4);	
+		read(STDIN_FILENO, buffer, 4);
 		handle_input(buffer, usef);
 		ft_bzero(buffer, 5);
 	}
