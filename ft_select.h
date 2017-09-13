@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:19:55 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/11 16:13:44 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/13 22:00:40 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_elem
 	char			*value;
 	int				selected;
 	int				cursor;
+	int				filetype;
 }					t_elem;
 
 typedef struct		s_printinfo
@@ -65,9 +66,9 @@ char				**entries_array(t_all *container);
 ** visual capabilities
 */
 
-void				ft_underliner(char *word, int fd);
-void				underlined_inversed(char *word, int fd);
-void				inversed_video(char	*word, int fd);
+void				inversed_video(t_list *entry, int fd);
+void				ft_underliner(t_list *entry, int fd);
+void				underlined_inversed(t_list *entry, int fd);
 
 /*
 ** entries handle
@@ -97,5 +98,12 @@ t_printinfo			*display_info(t_all *container);
 int					line_check(t_all *container);
 void				display_entries(t_all *container);
 void				push_cap(char *const cap);
+
+/*
+** extra features
+*/
+
+void				get_file_type(t_list *entries);
+void				print_color(t_list *elem, int fd);
 
 #endif

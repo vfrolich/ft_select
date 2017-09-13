@@ -6,7 +6,7 @@ LIB				=   $(LIB_PATH)/libft.a
 LIB_LINK		=	-Llibft -ltermcap -lft
 SRC				=	main.c init.c line.c handy_tools.c display.c \
 					entries_handle.c cursor.c visual_caps.c term.c signal.c \
-					entries_handle_2.c
+					entries_handle_2.c color_files.c
 HEADER			=	ft_select.h
 OBJS			=	$(SRC:.c=.o)
 

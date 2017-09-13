@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:03 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/11 16:20:27 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/13 21:59:24 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static void			display_one(t_list *elem, int largest_word, int fd)
 
 	if (((t_elem *)(elem->content))->cursor == 1 &&
 		((t_elem *)(elem->content))->selected == 1)
-		underlined_inversed(((t_elem *)(elem->content))->value, fd);
+		underlined_inversed(elem, fd);
 	else if (((t_elem *)(elem->content))->cursor == 1)
-		ft_underliner(((t_elem *)(elem->content))->value, fd);
+		ft_underliner(elem, fd);
 	else if (((t_elem *)(elem->content))->selected == 1)
-		inversed_video(((t_elem *)(elem->content))->value, fd);
+		inversed_video(elem, fd);
 	else
-		ft_putstr_fd(((t_elem *)(elem->content))->value, fd);
+		print_color(elem, fd);
 	padding = largest_word - ft_strlen(((t_elem *)(elem->content))->value);
 	while (padding > 0)
 	{

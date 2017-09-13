@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:21 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/11 15:45:03 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/13 20:37:21 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static t_list	*entry_init_one(char *arg)
 	entry->value = ft_strcpy(entry->value, arg);
 	entry->cursor = 0;
 	entry->selected = 0;
+	entry->filetype = 0;
 	if (!(dest = ft_lstnew(entry, sizeof(entry))))
 	{
 		ft_putendl_fd("ft_select: malloc error", 2);

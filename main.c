@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:21:04 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/11 16:13:33 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/13 21:09:24 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int				main(int argc, char **argv)
 	if (setting_term())
 		exit(1);
 	((t_elem *)(entries->content))->cursor = 1;
+	get_file_type(entries);
 	main_loop(container);
 	return (0);
 }
