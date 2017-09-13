@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 10:20:02 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/09 11:28:38 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/11 16:08:38 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,22 @@ static t_list	*go_to_prev(t_list *entries)
 	return (prev);
 }
 
+void			free_all_entries(t_list *entries)
+{
+	t_list	*tmp;
+	t_list	*to_free;
+
+	tmp = entries;
+	tmp = entries->next;
+	while (tmp != entries)
+	{
+		to_free = tmp;
+		tmp = tmp->next;
+		free_entry(to_free);
+	}
+	free_entry(tmp);
+}
+
 t_list			*remove_one(t_list *entries)
 {
 	t_list		*prev;
@@ -36,7 +52,7 @@ t_list			*remove_one(t_list *entries)
 	t_list		*origin;
 
 	if (entries == entries->next)
-		term_rollback();
+		term_rollback(0);
 	origin = entries;
 	tmp = entries;
 	prev = entries->next;

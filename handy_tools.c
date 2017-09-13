@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:17:49 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/09 12:35:58 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/11 16:16:15 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,21 @@ static char		**sort_array(char **entries_array)
 	return (entries_array);
 }
 
-char			**entries_array(t_all *usef)
+char			**entries_array(t_all *container)
 {
 	char		**dest;
 	char		**start;
+	size_t		count;
 	t_list		*tmp;
 
-	tmp = usef->elems;
-	dest = (char **)malloc(sizeof(char *) * (count_entries(usef->elems) + 1));
+	tmp = container->elems;
+	count = count_entries(container->elems);
+	dest = (char **)malloc(sizeof(char *) * (count + 1));
 	start = dest;
 	*dest = ft_strdup(((t_elem *)(tmp->content))->value);
 	tmp = tmp->next;
 	dest++;
-	while (tmp != usef->elems)
+	while (tmp != container->elems)
 	{
 		*dest = ft_strdup(((t_elem *)(tmp->content))->value);
 		tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:20:03 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/11 08:51:11 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/11 16:20:27 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,27 @@ static void			display_one(t_list *elem, int largest_word, int fd)
 	}
 }
 
-void				display_entries(t_all *usef)
+void				display_entries(t_all *container)
 {
 	t_list			*tmp;
 	int				nb_words;
 
-	if (line_check(usef) == -1)
+	if (line_check(container) == -1)
 		return ;
-	tmp = usef->elems;
-	display_one(tmp, usef->d_infos->largest_word, usef->fd);
+	tmp = container->elems;
+	display_one(tmp, container->d_infos->largest_word, container->fd);
 	tmp = tmp->next;
 	nb_words = 1;
-	while (tmp != usef->elems)
+	while (tmp != container->elems)
 	{
-		while (nb_words < usef->d_infos->nb_word && tmp != usef->elems)
+		while (nb_words < container->d_infos->nb_word
+			&& tmp != container->elems)
 		{
-			display_one(tmp, usef->d_infos->largest_word, usef->fd);
+			display_one(tmp, container->d_infos->largest_word, container->fd);
 			tmp = tmp->next;
 			nb_words++;
 		}
-		ft_putchar_fd('\n', usef->fd);
+		ft_putchar_fd('\n', container->fd);
 		nb_words = 0;
 	}
 }

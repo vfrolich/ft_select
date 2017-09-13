@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/23 16:37:30 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/09 18:51:35 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/11 16:14:25 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,21 @@ void				init_checks(void)
 		: ft_putendl_fd("failed to load termcap database", 2);
 		exit(1);
 	}
+}
+
+void				free_all_t(t_all *container)
+{
+	char			**tmp;
+
+	tmp = container->sorted_array;
+	while (*tmp)
+	{
+		if (tmp)
+			ft_strdel(tmp);
+		tmp++;
+	}
+	free(container->sorted_array);
+	free(container->d_infos);
+	free(container);
+	container = NULL;
 }

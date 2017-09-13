@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:19:55 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/09 18:49:31 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/11 16:13:44 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char				*get_term_infos(void);
 t_all				*all_struct_init(t_list *entries);
 t_list				*get_entries(char **argv);
 int					setting_term(void);
-char				**entries_array(t_all *usef);
+char				**entries_array(t_all *container);
 
 /*
 ** visual capabilities
@@ -78,22 +78,24 @@ void				cursor_on_next(t_list *entry);
 void				cursor_on_prev(t_list *entry);
 void				select_cur(t_list *entries);
 void				return_entries(t_list *entries);
+void				free_all_entries(t_list *entries);
+void				free_all_t(t_all *container);
 
 /*
 ** signal handling
 */
 
 void				sigaction_handler(void);
-void				term_rollback(void);
+void				term_rollback(int ret);
 
 /*
 ** display
 */
 
 size_t				get_term_size(char *field);
-t_printinfo			*display_info(t_all *usef);
-int					line_check(t_all *usef);
-void				display_entries(t_all *usef);
+t_printinfo			*display_info(t_all *container);
+int					line_check(t_all *container);
+void				display_entries(t_all *container);
 void				push_cap(char *const cap);
 
 #endif
