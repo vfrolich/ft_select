@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:19:55 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/13 22:00:40 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/14 14:39:24 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void				cursor_on_next(t_list *entry);
 void				cursor_on_prev(t_list *entry);
 void				select_cur(t_list *entries);
 void				return_entries(t_list *entries);
+void				free_entry(t_list *entry);
 void				free_all_entries(t_list *entries);
 void				free_all_t(t_all *container);
 

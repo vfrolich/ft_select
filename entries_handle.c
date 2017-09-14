@@ -6,17 +6,18 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/21 10:20:02 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/11 16:08:38 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/14 14:39:01 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-static void		free_entry(t_list *entry)
+void			free_entry(t_list *entry)
 {
 	ft_strdel(&((t_elem *)(entry->content))->value);
 	free(entry->content);
 	free(entry);
+	entry = NULL;
 }
 
 static t_list	*go_to_prev(t_list *entries)
@@ -51,8 +52,6 @@ t_list			*remove_one(t_list *entries)
 	t_list		*tmp;
 	t_list		*origin;
 
-	if (entries == entries->next)
-		term_rollback(0);
 	origin = entries;
 	tmp = entries;
 	prev = entries->next;

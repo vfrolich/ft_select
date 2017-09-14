@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 09:59:11 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/13 19:52:09 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/14 14:34:04 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void		term_rollback(int ret)
 		ft_putendl_fd("ft_select: failed to apply changes on term", 2);
 	push_cap("ve");
 	push_cap("te");
-	exit(ret);
+	if (ret)
+		exit(ret);
 }
 
 static void	sig_tstp_handler(void)
