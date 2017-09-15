@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:21:04 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/14 14:39:47 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/15 10:34:04 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static int		main_loop(t_all *container)
 			free_all_t(container);
 			return (0);
 		}
+		read_for_search(container->elems, buffer);
 		ft_bzero(buffer, 5);
 	}
 	return (0);

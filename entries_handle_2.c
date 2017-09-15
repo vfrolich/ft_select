@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 11:27:36 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/11 15:38:44 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/15 15:46:46 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void		entry_return_one(t_list *entries)
 	ft_putstr_fd(ENT->value, STDOUT_FILENO);
 	if (another_one_selected(entries))
 		ft_putchar_fd(' ', STDOUT_FILENO);
-	ENT->selected = 0;
 }
 
 void			return_entries(t_list *entries)
@@ -53,6 +52,7 @@ void			return_entries(t_list *entries)
 			entry_return_one(entries);
 		entries = entries->next;
 	}
-	ft_putchar('\n');
+	if (another_one_selected(entries->next))
+		ft_putchar('\n');
 	free_all_entries(entries);
 }
