@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/08 17:19:55 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/15 15:47:58 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/27 13:38:00 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ void				push_cap(char *const cap);
 
 void				get_file_type(t_list *entries);
 void				print_color(t_list *elem, int fd);
-void				read_for_search(t_list *entries, char *oldbuff);
+void				read_for_search(t_all *all_struct, char *oldbuff);
 
 #endif

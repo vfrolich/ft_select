@@ -6,7 +6,7 @@
 /*   By: vfrolich <vfrolich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 11:42:28 by vfrolich          #+#    #+#             */
-/*   Updated: 2017/09/15 15:46:34 by vfrolich         ###   ########.fr       */
+/*   Updated: 2017/09/27 14:01:59 by vfrolich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,48 @@ static int		dyna_search(t_list *entries, char *buffer, int c_read)
 	return (1);
 }
 
-void			read_for_search(t_list *entries, char *oldbuff)
+static void		echo_search(int c)
+{
+	char	*tty_name;
+	int		fd;
+
+	if (c < 33 || c > 126)
+		return ;
+	fd = 0;
+	if (!isatty(1))
+	{
+		tty_name = ttyname(0);
+		fd = open(tty_name, O_WRONLY);
+	}
+	ft_putchar_fd(c, fd);
+}
+
+int				perfect_match(char *to_match, t_list *elems)
+{
+	t_list		*tmp;
+
+	tmp = elems;
+	if (!to_match)
+		return (0);
+	if (!ft_strcmp(to_match, ((t_elem *)(tmp->content))->value))
+	{
+		select_new_entry(elems, tmp);
+		return (1);
+	}
+	tmp = tmp->next;
+	while (tmp != elems)
+	{
+		if (!ft_strcmp(to_match, ((t_elem *)(tmp->content))->value))
+		{
+			select_new_entry(elems, tmp);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+void			read_for_search(t_all *all_struct, char *oldbuff)
 {
 	char		*buffer;
 	char		*to_search;
@@ -60,15 +101,16 @@ void			read_for_search(t_list *entries, char *oldbuff)
 	buffer = strgen(132);
 	to_search = strgen(1);
 	tmp = NULL;
-	ret = 1;
-	while (!ft_strchr(buffer, 9))
+	ret = 0;
+	ft_putstr_fd("search: ", all_struct->fd);
+	while (ft_isprint(*buffer) || !*buffer)
 	{
 		ret = ret + read(STDIN_FILENO, buffer, 1);
 		tmp = ft_strdup(buffer);
+		echo_search(*buffer);
 		to_search = ft_strjoin_free(&to_search, &tmp);
-		dyna_search(entries, to_search, ret - 1);
+		dyna_search(all_struct->elems, to_search, ret);
 	}
-	dyna_search(entries, to_search, ret - 1);
 	ft_strdel(&buffer);
 	ft_strdel(&to_search);
 }
